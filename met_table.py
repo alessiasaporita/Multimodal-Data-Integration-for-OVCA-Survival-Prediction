@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+import os
 
 #tabella metilazione: CASE_ID
 #1
@@ -24,8 +25,9 @@ for case_id in case_id_list:
   for i in range(len(met_json)):
     if (met_json[i]["cases"][0]["case_id"] == case_id): 
       filename = met_json[i]["file_name"]
-      df = pd.read_csv("c:/Users/utente/Desktop/BIO_Project/Met_Data/" + filename, header=None, delimiter='\t')
-      met_table[case_id] = df.iloc[:,1]
+      if os.path.isfile("c:/Users/utente/Desktop/BIO_Project/mRNA_Data/" + filename):
+        df = pd.read_csv("c:/Users/utente/Desktop/BIO_Project/Met_Data/" + filename, header=None, delimiter='\t')
+        met_table[case_id] = df.iloc[:,1]
 
 print(met_table)
 met_table.to_csv(path_table, sep='\t', index=False)
